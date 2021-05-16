@@ -14,7 +14,8 @@ class ProdectController extends Controller
      */
     public function index()
     {
-        //
+        $products = Prodect::latest()->get();
+        return view('posts.index',compact('products'));
     }
 
     /**

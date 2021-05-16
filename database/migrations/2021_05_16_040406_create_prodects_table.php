@@ -18,7 +18,7 @@ class CreateProdectsTable extends Migration
             $table->json('title');
             $table->json('slug');
             $table->json('dec');
-            $table->decimal('price',5,2);
+            $table->decimal('price',5,2)->default(00.00);
             $table->timestamps();
         });
     }
