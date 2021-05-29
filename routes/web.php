@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LocaleController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,4 +16,20 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('layouts.app');
+});
+
+
+
+/* Route Chang Lng in Project */
+
+Route::get('/change-language/{locale}', [LocaleController::class, 'switch'])->name('change.language');
+
+
+// required from group_madilware not using prefix
+// Route::middleware(['localized'])->prefix(app()->getLocale())->group(function () {
+//And not using localized ? add prefix in routprovider
+Route::middleware(['localized'])->prefix(app()->getLocale())->group(function () {
+// Route::middleware(['web'])->group(function () { //this is proplem
+    Route::get('products', [ProdectController::class, 'index'])->name('products.index');
+    Route::get('products/{product}', [ProdectController::class, 'show'])->name('products.show');
 });

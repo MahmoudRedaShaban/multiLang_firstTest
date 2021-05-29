@@ -5,13 +5,15 @@ namespace App\Models;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\Translatable\HasTranslations;
 
 class Prodect extends Model
 {
-    use HasFactory , HasTranslations , Sluggable;
+    use HasFactory , HasTranslations , Sluggable , SoftDeletes;
 
     protected $guarded = [];
+    protected $dates = ['deleted_at'];
 
     public $translatable = ['title','slug','dec','price'];
 

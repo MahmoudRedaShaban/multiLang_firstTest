@@ -15,7 +15,7 @@ class ProdectController extends Controller
     public function index()
     {
         $products = Prodect::latest()->get();
-        return view('posts.index',compact('products'));
+        return view('products.index',compact('products'));
     }
 
     /**
@@ -45,9 +45,12 @@ class ProdectController extends Controller
      * @param  \App\Models\Prodect  $prodect
      * @return \Illuminate\Http\Response
      */
-    public function show(Prodect $prodect)
+    public function show(Prodect $prodect) // show( $prodect) if hundel slag her
     {
-        //
+        // If not using Model in param and not hundel slag in model in func  getRouteKeyName()
+        // $pordect = Prodect::where('slug->'. app()->getLocale(), $pordect)->first();
+
+        return view('products.show', compact('product'));
     }
 
     /**

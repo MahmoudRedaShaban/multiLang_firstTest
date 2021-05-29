@@ -23,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        // set project for lang used And start use lang select in config\app
+        //set default lng from route in project
+        app()->setlocale(request()->segment(1));
     }
 }
