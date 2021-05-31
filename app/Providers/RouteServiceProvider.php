@@ -39,9 +39,10 @@ class RouteServiceProvider extends ServiceProvider
         //set default lang in route
         // $locale = request()->segment(1);
         //Get local form Project
-        $locale = app()->getLocale();
+        // $locale = app()->getLocale(); //
 
-        $this->routes(function  () use($locale) {
+        // $this->routes(function  () use($locale) {
+            $this->routes(function()  {
             Route::prefix('api')
                 ->middleware('api')
                 ->namespace($this->namespace)
@@ -55,10 +56,11 @@ class RouteServiceProvider extends ServiceProvider
 
         /* Huandel Route For Model [Product ]  read slug and translate route*/
         //this is transiton in Route
-        Route::bind('product' , function ($slug) use ($locale) {
+        /* Not Working for sessions */
+    /*  Route::bind('product' , function ($slug) use ($locale) {
             //Edit read Route for translation
             return $this->resolveModel(Product::class, $slug, $locale);
-        });
+        }); */
     }
 
     /**
@@ -74,7 +76,7 @@ class RouteServiceProvider extends ServiceProvider
     }
 
     //hundel data and  Translation And return Result
-    protected function resolveModel($modelClass, $slug, $locale)
+    /* protected function resolveModel($modelClass, $slug, $locale)
     {
         // Search in db foun this slug
         $model = $modelClass::where('slug->'.$locale, $slug)->first();
@@ -93,5 +95,5 @@ class RouteServiceProvider extends ServiceProvider
         }
 
         return $model;
-    }
+    } */
 }

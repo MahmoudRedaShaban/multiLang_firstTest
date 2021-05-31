@@ -13,7 +13,25 @@ class ProdectSeeder extends Seeder
      */
     public function run()
     {
-        $quots01['title'] = [
+
+        $quots01['title'] = ['en' => 'Hello','ar' => 'مرحبا.','ca' => 'hola.'];
+        $quots01['dec'] = ['en' => 'Hello','ar' => 'مرحبا.','ca' => 'hola.'];
+        $quots01['price'] = ['en' => '20','ar' => '20','ca' => '20'];
+
+        $quots02['title'] = ['en' => 'Hello','ar' => 'مرحبا.','ca' => 'hola.'];
+        $quots02['dec'] = ['en' => 'Hello','ar' => 'مرحبا.','ca' => 'hola.'];
+        $quots02['price'] = ['en' => '20','ar' => '20','ca' => '20'];
+
+        $quots03['title'] = ['en' => 'Hello','ar' => 'مرحبا.','ca' => 'hola.'];
+        $quots03['dec'] = ['en' => 'Hello','ar' => 'مرحبا.','ca' => 'hola.'];
+        $quots03['price'] = ['en' => '20','ar' => '20','ca' => '20'];
+
+        Prodect::create($quots01);
+        Prodect::create($quots02);
+        Prodect::create($quots03);
+
+
+        /*  $quots01['title'] = [
             'en' => 'It’s not about ideas. It’s about making ideas happen.',
             'ar' => 'الأمر لا يتعلق بالافكار إنه حول جعل الأفكار تحدث.',
             'ca' => 'No se trata de ideas. Se trata de hacer realidad las ideas.',
@@ -192,5 +210,7 @@ class ProdectSeeder extends Seeder
         Prodect::create($quots13);
         Prodect::create($quots14);
         Prodect::create($quots15);
+        */
+
     }
 }
