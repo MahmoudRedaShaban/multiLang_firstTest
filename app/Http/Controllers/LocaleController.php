@@ -108,7 +108,11 @@ class LocaleController extends Controller
             }
             abort(404);
         }
-
+        // dd($slug, $model->slug);
+        // solving fix [repet slug ] is convrt betwean lng > exception
+        if($slug === $model->slug){ //her is slug.lng == slug.lngOther [return back no convert]
+            return redirect()->back();
+        }
         return $model;
     }
 

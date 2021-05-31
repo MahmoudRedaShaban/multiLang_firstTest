@@ -2,16 +2,18 @@
 
 namespace App\Models;
 
-use Cviebrock\EloquentSluggable\Sluggable;
+use App\Helper\MySlugHelper;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Nicolaslopezj\Searchable\SearchableTrait;
+use Spatie\Sluggable\HasTranslatableSlug;
+use Spatie\Sluggable\SlugOptions;
 use Spatie\Translatable\HasTranslations;
 
 class Prodect extends Model
 {
-    use HasFactory , HasTranslations , Sluggable , SoftDeletes, SearchableTrait;
+    use HasFactory , HasTranslations ,HasTranslatableSlug , SoftDeletes, SearchableTrait;
 
     protected $guarded = [];
     protected $dates = ['deleted_at'];
@@ -19,7 +21,15 @@ class Prodect extends Model
     public $translatable = ['title','slug','dec','price'];
 
 
-
+    /**
+     * Get the options for generating the slug.
+     */
+    public function getSlugOptions() : SlugOptions
+    {
+        return SlugOptions::create()
+            ->generateSlugsFrom('title')
+            ->saveSlugsTo('slug');
+    }
 
     protected $searchable = [
         /**
@@ -35,41 +45,25 @@ class Prodect extends Model
         ],
     ];
 
-
-
-
-    //fix problem slug lng
-    public   function sluggable(): array
+    /**
+     * @overrid Method
+     * for Slug
+    */
+    protected function generateNonUniqueSlug(): string
     {
-        return [
-            'slug->en' => [
-                'source' => 'titleen',
-            ],
-            'slug->ar' => [
-                'source' => 'titlear',
-            ],
-            'slug->ca' => [
-                'source' => 'titleca',
-            ]
-        ];
+        $slugField = $this->slugOptions->slugField;
+
+        if ($this->hasCustomSlugBeenUsed() && ! empty($this->$slugField)) {
+            return $this->$slugField;
+        }
+        return MySlugHelper::slug($this->getSlugSourceString());
+        // return Str::slug($this->getSlugSourceString(), $this->slugOptions->slugSeparator, $this->slugOptions->slugLanguage);
     }
 
 
 
-    public function getTitleenAttribute()
-    {
-        return $this->getTranslation('title', 'en');
-    }
 
-    public function getTitlearAttribute()
-    {
-        return $this->getTranslation('title', 'ar');
-    }
 
-    public function getTitlecaAttribute()
-    {
-        return $this->getTranslation('title', 'ca');
-    }
     //set type data in database is json
     protected function asJson($value)
     {
