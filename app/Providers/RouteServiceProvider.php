@@ -36,17 +36,31 @@ class RouteServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->configureRateLimiting();
+        //set default lang in route
+        // $locale = request()->segment(1);
+        //Get local form Project
+        // $locale = app()->getLocale(); //
 
-        $this->routes(function () {
+        // $this->routes(function  () use($locale) {
+            $this->routes(function()  {
             Route::prefix('api')
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
+                // ->prefix($locale)    //stop this convert lang in product To hundel translate
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
+
+        /* Huandel Route For Model [Product ]  read slug and translate route*/
+        //this is transiton in Route
+        /* Not Working for sessions */
+    /*  Route::bind('product' , function ($slug) use ($locale) {
+            //Edit read Route for translation
+            return $this->resolveModel(Product::class, $slug, $locale);
+        }); */
     }
 
     /**
@@ -60,4 +74,26 @@ class RouteServiceProvider extends ServiceProvider
             return Limit::perMinute(60)->by(optional($request->user())->id ?: $request->ip());
         });
     }
+
+    //hundel data and  Translation And return Result
+    /* protected function resolveModel($modelClass, $slug, $locale)
+    {
+        // Search in db foun this slug
+        $model = $modelClass::where('slug->'.$locale, $slug)->first();
+        // if is found this slug in lng  get author lang and result but not abort(404)
+        if(is_null($model)){
+            foreach(config('locales.languages') as $key => $value){
+                $modelinLocal = $modelClass::where('slug->'.$key, $slug)->first();
+                if($modelinLocal){
+
+                    // dd($slug, $modelinLocal->slug, urlencode(request()->fullUrl()));
+                    $newRoute = str_replace($slug, $modelinLocal->slug, urlencode(request()->fullUrl()));
+                    return redirect()->to($newRoute)->send(); // send == Required
+                }
+            }
+            abort(404);
+        }
+
+        return $model;
+    } */
 }
